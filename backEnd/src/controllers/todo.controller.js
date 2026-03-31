@@ -20,4 +20,26 @@ const getTodos = async (req, res) => {
     }
 };
 
-module.exports = { createTodos, getTodos };
+const updateTodos = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedTodo = await todo.findByIdAndUpdate(id, req.body);
+        res.status(200).json({ message: "Todo updated", data: updatedTodo });
+    } 
+    catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const deleteTodos = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await todo.findByIdAndDelete(id);
+        res.status(200).json({ message: "Todo deleted" });
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+    }   
+};
+
+module.exports = { createTodos, getTodos, updateTodos, deleteTodos};
